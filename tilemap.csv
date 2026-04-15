@@ -1,0 +1,82 @@
+#ifndef RENDERER2D_H
+#define RENDERER2D_H
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL.h>
+#include <string>
+
+#include "../noyau/Personnage.h"
+#include "../noyau/Ennemi.h"
+#include "../noyau/Tilemap.h"
+
+class Renderer2D {
+private:
+    SDL_Renderer* rendu;
+    TTF_Font* police;       // CORRIGÉ : F majuscule
+    TTF_Font* policeGrande; // CORRIGÉ : TTF_Font avec l'étoile *
+
+public:
+    Renderer2D(SDL_Renderer* rendu);
+    ~Renderer2D();
+
+    bool chargerPolices();
+
+    void dessinerRect(int x, int y, int w, int h,
+                      Uint8 r, Uint8 g, Uint8 b);
+    /** @brief Dessine du texte à l'écran
+     *  @param texte Le texte à dessiner
+     *  @param x La coordonnée x du coin supérieur gauche du texte
+     *  @param y La coordonnée y du coin supérieur gauche du texte
+     *  @param r La composante rouge de la couleur du texte (0-255)
+     *  @param g La composante verte de la couleur du texte (0-255)
+     *  @param b La composante bleue de la couleur du texte (0-255)
+     */
+    void dessinerTexte(const std::string& texte,
+                       int x, int y,
+                       Uint8 r, Uint8 g, Uint8 b);
+    /** @brief Dessine une barre de vie à l'écran
+     *  @param x La coordonnée x du coin supérieur gauche de la barre de vie
+     *  @param y La coordonnée y du coin supérieur gauche de la barre de vie
+     *  @param pv Le nombre de points de vie actuels
+     *  @param pvMax Le nombre maximum de points de vie
+     */ 
+    void dessinerBarreVie(int x, int y,
+                          int pv, int pvMax);
+    /** @brief Dessine une tilemap à l'écran
+     *  @param map La tilemap à dessiner, représentée sous forme de tableau 2D d'entiers
+     *  @param tailleTuile La taille (en pixels) de chaque tuile
+     */
+    void dessinerTilemap(const Tilemap& map, int tailleTuile);
+
+        /** @brief Dessine le personnage à l'écran
+ *  @param p Le personnage à dessiner
+ *  @param taille La taille (en pixels) du personnage
+ */
+    void dessinerPersonnage(const Personnage& p, int taille);
+
+     /** @brief Dessine un ennemi à l'écran
+     *  @param e L'ennemi à dessiner
+     *  @param taille La taille (en pixels) de l'ennemi
+     */
+   // void dessinerEnnemi(const Ennemi& e, int taille);
+    /** @brief Dessine un ennemi à l'écran
+     *  @param e L'ennemi à dessiner
+     *  @param taille La taille (en pixels) de l'ennemi
+     */
+    void dessinerEnnemi(const Ennemi& e,
+                        int taille);
+    /** @brief Dessine l'interface utilisateur (HUD) à l'écran
+     *  @param joueur Le joueur
+     *  @param ennemi L'ennemi
+     */
+    void dessinerHUD(const Personnage& joueur,
+                     const Ennemi& ennemi);
+    /** @brief Dessine les contrôles à l'écran
+     */
+    void dessinerControles();
+    void dessinerVictoire();
+    void dessinerGameOver();
+    void effacer();
+    void afficher();
+};
+
+#endif
